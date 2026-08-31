@@ -1,3 +1,14 @@
 .env
 target/
 *.class
+
+# material de apoio, nao faz parte da entrega
+gravar-video.sh
+Roteiro-do-Video.pdf
+Como-Gravar-o-Video.pdf
+DimDim-Dossie-Checkpoint.pdf
+docs/como-gravar.html
+docs/guia-rapido.md
+docs/roteiro-video.md
+docs/folha-de-rosto.md
+~/
