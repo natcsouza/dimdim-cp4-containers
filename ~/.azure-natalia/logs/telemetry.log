@@ -1,0 +1,8 @@
+3043223 : 2026-08-31 18:30:34,965 : INFO : telemetry.main : Attempt start. Configuration directory [~/.azure-natalia]. Cache directory [~/.azure-natalia/telemetry/20260831183034896].
+3043223 : 2026-08-31 18:30:34,970 : INFO : telemetry.records : 1 cache files to upload.
+3043223 : 2026-08-31 18:30:34,970 : INFO : telemetry.records : Processed file ~/.azure-natalia/telemetry/20260831183034896/cache into 1 records.
+3043223 : 2026-08-31 18:30:34,970 : INFO : telemetry.records : Remove directory ~/.azure-natalia/telemetry/20260831183034896
+3043223 : 2026-08-31 18:30:34,970 : INFO : telemetry.client : Accumulated 1 events. Flush the clients.
+3043223 : 2026-08-31 18:30:34,970 : INFO : telemetry.client : Flush client c4395b75-49cc-422c-bc95-c7d51aef5d46.
+3043223 : 2026-08-31 18:30:35,530 : INFO : telemetry.sender : Sending 4185 bytes
+3043223 : 2026-08-31 18:30:35,530 : INFO : telemetry.sender : Finish uploading in 0.559867 seconds.

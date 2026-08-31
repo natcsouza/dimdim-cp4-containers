@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Como gravar o vídeo — passo a passo</title>
+<style>
+  :root{
+    --tinta:#0f1b26; --aco:#1f4d70; --teal:#0d7d70;
+    --ambar:#8a5a10; --painel:#f2f5f8; --borda:#d3dbe3; --secund:#5b6b7a;
+  }
+  @page{ size:A4; margin:16mm 15mm;
+    @bottom-center{ content:"Como gravar · pág. " counter(page);
+      font-family:"DejaVu Sans",sans-serif; font-size:7.5pt; color:#8494a3; } }
+  @page:first{ @bottom-center{ content:""; } }
+  *{box-sizing:border-box;}
+  body{font-family:"DejaVu Sans",sans-serif;font-size:10pt;line-height:1.55;color:var(--tinta);margin:0;}
+  h1,h2{font-family:"DejaVu Serif",serif;}
+  .topo{border-top:3pt solid var(--aco);padding-top:7mm;margin-bottom:6mm;}
+  .eyebrow{font-size:7.5pt;letter-spacing:.16em;text-transform:uppercase;color:var(--secund);margin:0 0 3mm 0;}
+  h1{font-size:21pt;margin:0 0 2mm 0;line-height:1.15;}
+  .sub{font-size:10.5pt;color:var(--secund);margin:0;}
+  h2{font-size:12.5pt;color:var(--aco);border-bottom:.8pt solid var(--aco);
+     padding-bottom:1.5mm;margin:8mm 0 3mm 0;}
+  p{margin:0 0 2.5mm 0;}
+  .passo{
+    display:block;
+    background:var(--painel);
+    border-left:3pt solid var(--aco);
+    padding:3mm 4mm;
+    margin:3mm 0;
+  }
+  .passo .n{
+    font-family:"DejaVu Serif",serif;
+    font-size:12pt;
+    font-weight:bold;
+    color:var(--aco);
+    margin-bottom:1mm;
+  }
+  code, .cmd{
+    font-family:"DejaVu Sans Mono",monospace;
+    font-size:8.6pt;
+  }
+  .cmdbox{
+    background:var(--tinta);
+    color:#d6e6f2;
+    font-family:"DejaVu Sans Mono",monospace;
+    font-size:8.6pt;
+    padding:2.5mm 3mm;
+    border-radius:1.5mm;
+    margin:2mm 0;
+    white-space:pre-wrap;
+    word-break:break-all;
+  }
+  .alerta{
+    background:#fff6f4;
+    border:.5pt solid #e6c4bc;
+    border-left:2.5pt solid #b03030;
+    padding:3mm 4mm;
+    margin:3mm 0;
+    font-size:9.4pt;
+  }
+  .alerta b{color:#b03030;}
+  .nota{
+    background:var(--painel);
+    border-left:2pt solid var(--ambar);
+    padding:2.5mm 3.5mm;
+    font-size:9.2pt;
+    margin:3mm 0;
+  }
+  .nota b{color:var(--ambar);}
+  .ok{
+    background:#f0f8f6;
+    border-left:2pt solid var(--teal);
+    padding:2.5mm 3.5mm;
+    font-size:9.2pt;
+    margin:3mm 0;
+  }
+  ul{margin:1mm 0 2mm 0;padding-left:5mm;}
+  li{margin-bottom:1.3mm;}
+  .check{list-style:none;padding-left:0;}
+  .check li{padding-left:6mm;position:relative;}
+  .check li::before{content:"\2610";position:absolute;left:0;color:var(--secund);}
+  table{width:100%;border-collapse:collapse;font-size:9pt;margin:2mm 0 3mm 0;}
+  th{background:var(--painel);text-align:left;padding:1.8mm 2mm;font-size:7.5pt;
+     text-transform:uppercase;letter-spacing:.08em;color:var(--secund);border-bottom:.8pt solid var(--borda);}
+  td{padding:1.8mm 2mm;border-bottom:.4pt solid var(--borda);vertical-align:top;}
+</style>
+</head>
+<body>
+
+<div class="topo">
+  <p class="eyebrow">Checkpoint · Containers em Nuvem</p>
+  <h1>Como gravar o vídeo</h1>
+  <p class="sub">Tudo pelo navegador, sem instalar nada no computador.</p>
+</div>
+
+<div class="ok">
+<b>A ideia:</b> você vai usar o <b>Azure Cloud Shell</b> — um terminal que roda dentro
+do site da Azure. Ele já vem conectado na sua conta e já tem tudo que o script precisa.
+Você só lê o que aparecer na tela e aperta ENTER.
+</div>
+
+<h2>Antes de ligar a gravação</h2>
+
+<div class="passo">
+  <div class="n">1. Abra o portal da Azure</div>
+  Entre em <code>portal.azure.com</code> com o seu login da FIAP
+  (<code>RM564099@fiap.com.br</code>).
+</div>
+
+<div class="passo">
+  <div class="n">2. Abra o Cloud Shell</div>
+  No topo da tela, clique no ícone <code>&gt;_</code> (fica perto do sininho de
+  notificações). Se ele perguntar, escolha <b>Bash</b>.
+  <br><br>
+  Na primeira vez ele pergunta sobre armazenamento — pode escolher a opção mais
+  simples, qualquer uma serve.
+</div>
+
+<div class="passo">
+  <div class="n">3. Baixe o projeto</div>
+  Cole este comando e aperte ENTER:
+  <div class="cmdbox">git clone https://github.com/natcsouza/dimdim-cp4-containers.git
+cd dimdim-cp4-containers</div>
+</div>
+
+<div class="passo">
+  <div class="n">4. Informe a senha do banco</div>
+  <div class="cmdbox">export DB_PASSWORD='&lt;a senha que o Dolglas te passou&gt;'</div>
+</div>
+
+<div class="alerta">
+<b>Faça o passo 4 com a gravação DESLIGADA.</b> Se a senha aparecer na tela durante
+o vídeo, são <b>20 pontos a menos</b> por expor dado sensível. Depois de digitar,
+limpe a tela com o comando <code>clear</code>.
+</div>
+
+<div class="passo">
+  <div class="n">5. Teste antes</div>
+  Rode o script uma vez, só para conferir que está tudo certo:
+  <div class="cmdbox">bash gravar-video.sh</div>
+  Ele vai mostrar uma lista de conferência. Se aparecer tudo com <b>v</b> verde,
+  pode fechar (Ctrl+C) — está pronto para gravar de verdade.
+</div>
+
+<h2>Agora sim: gravando</h2>
+
+<div class="passo">
+  <div class="n">6. Aumente a fonte do terminal</div>
+  Aperte <code>Ctrl</code> e <code>+</code> uma 3 vezes. O professor precisa
+  conseguir ler.
+</div>
+
+<div class="passo">
+  <div class="n">7. Ligue a gravação</div>
+  Grave em <b>720p ou mais</b>, com o <b>microfone ligado</b>.
+  Feche abas com coisa pessoal antes.
+</div>
+
+<div class="passo">
+  <div class="n">8. Rode o script e siga</div>
+  <div class="cmdbox">bash gravar-video.sh</div>
+  A partir daqui é só repetir:
+  <ul>
+    <li>aparece um texto <b>amarelo</b> na tela → <b>leia em voz alta</b></li>
+    <li>aperte <b>ENTER</b> → o comando roda sozinho</li>
+    <li>aperte <b>ENTER</b> de novo → vai para o próximo</li>
+  </ul>
+  São <b>10 passos</b>. Você não precisa decorar nem digitar nada.
+</div>
+
+<div class="nota">
+<b>Se errar a fala:</b> não tem problema. Aperte <code>Ctrl+C</code>, rode
+<code>bash gravar-video.sh</code> de novo e recomece. Pode repetir quantas vezes quiser.
+</div>
+
+<h2>O que o vídeo vai mostrar</h2>
+
+<table>
+  <tr><th>Passo</th><th>O que aparece</th></tr>
+  <tr><td>1 e 2</td><td>Os recursos criados na Azure e os dois containers rodando</td></tr>
+  <tr><td>3</td><td>As duas imagens no Container Registry, com seu RM no nome</td></tr>
+  <tr><td>4</td><td>A prova de que a aplicação não roda como root</td></tr>
+  <tr><td>5</td><td>Estado inicial do banco: dois clientes</td></tr>
+  <tr><td>6</td><td><b>CREATE</b> — insere um cliente, e o SELECT mostra ele no banco</td></tr>
+  <tr><td>7</td><td><b>READ</b> — busca esse cliente pela API</td></tr>
+  <tr><td>8</td><td><b>UPDATE</b> — muda e-mail e saldo, e o SELECT confirma</td></tr>
+  <tr><td>9</td><td><b>DELETE</b> — remove, e o SELECT mostra que sumiu</td></tr>
+  <tr><td>10</td><td>Fechamento</td></tr>
+</table>
+
+<div class="nota">
+<b>Os SELECTs são o que mais vale nota</b> — 30 pontos. Não corte essas telas e não
+tenha pressa nelas.
+</div>
+
+<h2>Depois de gravar</h2>
+
+<div class="passo">
+  <div class="n">9. Suba no YouTube</div>
+  Na hora de publicar, escolha <b>"Não listado"</b>.
+</div>
+
+<div class="alerta">
+<b>Não escolha "Privado".</b> Se ficar privado, o professor não consegue abrir o
+vídeo — e sem acesso ao vídeo a prova <b>vale zero</b>.
+</div>
+
+<div class="passo">
+  <div class="n">10. Mande o link</div>
+  Copie o link do YouTube e mande. Ele entra na folha de rosto, e aí o
+  <code>PataCloud_container.pdf</code> fica pronto para subir no Teams.
+</div>
+
+<h2>Conferência final</h2>
+
+<ul class="check">
+  <li>Vídeo em 720p ou mais, com sua voz do começo ao fim</li>
+  <li>Começa mostrando os recursos na Azure</li>
+  <li>As quatro operações aparecem, cada uma com o SELECT depois</li>
+  <li>Nenhuma senha apareceu na tela</li>
+  <li>Vídeo no YouTube como "Não listado"</li>
+  <li>Link do vídeo dentro do PDF</li>
+  <li>PDF enviado no Teams por você (é a representante do grupo)</li>
+</ul>
+
+</body>
+</html>

@@ -29,13 +29,21 @@ FIM=$'\e[0m'
 PASSO=0
 TOTAL=10
 
-# Roda um SELECT no banco em nuvem usando o cliente mysql dentro de um
-# container, para nao depender do mysql instalado na maquina.
-sql() {
-    docker run --rm mysql:8.0 mysql \
-        -h "$DB_HOST" -u dimdim -p"$DB_PASSWORD" -D dimdim \
-        -e "$1" 2>&1 | grep -v "Using a password"
-}
+# Roda um SELECT no banco em nuvem. No Azure Cloud Shell o cliente mysql ja
+# vem instalado; num computador com Docker, usa o cliente dentro de um
+# container. Assim o mesmo script serve nos dois lugares.
+if command -v mysql >/dev/null 2>&1; then
+    sql() {
+        mysql -h "$DB_HOST" -u dimdim -p"$DB_PASSWORD" -D dimdim \
+            -e "$1" 2>&1 | grep -v "Using a password"
+    }
+else
+    sql() {
+        docker run --rm mysql:8.0 mysql \
+            -h "$DB_HOST" -u dimdim -p"$DB_PASSWORD" -D dimdim \
+            -e "$1" 2>&1 | grep -v "Using a password"
+    }
+fi
 
 falar() {
     PASSO=$((PASSO + 1))
@@ -67,11 +75,57 @@ fim_do_passo() {
 
 clear
 echo
-echo "${VERDE}  ANTES DE COMECAR${FIM}"
+echo "${VERDE}  CONFERINDO SE ESTA TUDO PRONTO${FIM}"
+echo
+
+problema=0
+
+if [ -z "$DB_PASSWORD" ]; then
+    echo "  ${AMARELO}x  A senha do banco nao foi definida.${FIM}"
+    echo "     Rode isto ANTES de comecar a gravar (a senha nao pode aparecer no video):"
+    echo "     ${CINZA}export DB_PASSWORD='a-senha-do-banco'${FIM}"
+    problema=1
+else
+    echo "  ${VERDE}v${FIM}  senha do banco definida"
+fi
+
+if command -v mysql >/dev/null 2>&1; then
+    echo "  ${VERDE}v${FIM}  cliente mysql encontrado"
+elif command -v docker >/dev/null 2>&1; then
+    echo "  ${VERDE}v${FIM}  docker encontrado (sera usado para o mysql)"
+else
+    echo "  ${AMARELO}x  Nao achei nem o mysql nem o docker.${FIM}"
+    echo "     Use o Azure Cloud Shell, que ja vem com o mysql instalado."
+    problema=1
+fi
+
+if az account show >/dev/null 2>&1; then
+    conta=$(az account show --query user.name -o tsv 2>/dev/null)
+    echo "  ${VERDE}v${FIM}  Azure conectada como ${conta}"
+else
+    echo "  ${AMARELO}x  A Azure nao esta conectada. Rode: az login${FIM}"
+    problema=1
+fi
+
+if curl -s -m 20 -o /dev/null "$API"; then
+    echo "  ${VERDE}v${FIM}  a aplicacao esta respondendo"
+else
+    echo "  ${AMARELO}x  A aplicacao nao respondeu. Confira se o container esta ligado.${FIM}"
+    problema=1
+fi
+
+echo
+if [ "$problema" = "1" ]; then
+    echo "  ${AMARELO}Resolva os itens marcados acima antes de gravar.${FIM}"
+    echo
+    exit 1
+fi
+
+echo "${VERDE}  Tudo certo. Agora:${FIM}"
 echo
 echo "    1. A gravacao de tela ja esta rodando?"
 echo "    2. O microfone esta ligado?"
-echo "    3. Abra o portal da Azure numa aba do navegador"
+echo "    3. O portal da Azure esta aberto numa aba?"
 echo
 read -r -p "  Se sim, aperte ENTER. "
 
