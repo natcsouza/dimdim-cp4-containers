@@ -10,12 +10,12 @@
 # =====================================================================
 
 # --- Identificacao do grupo -------------------------------------------------
-export RM="RM_DO_REPRESENTANTE"          # <<< TROCAR pelo RM do representante
+export RM="564099"                     # RM da Natalia (representante)
 export GRUPO="dimdim"
 
 # --- Recursos Azure ---------------------------------------------------------
 export RG="rg-${RM}-dimdim"
-export LOCATION="brazilsouth"
+export LOCATION="eastus2"          # a assinatura Azure for Students so permite: canadacentral, southcentralus, chilecentral, eastus2, northcentralus
 
 export ACR_NAME="acr${RM}dimdim"          # so letras minusculas e numeros
 export STORAGE_NAME="st${RM}dimdim"       # so letras minusculas e numeros

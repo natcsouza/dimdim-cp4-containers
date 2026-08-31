@@ -32,21 +32,30 @@ _[link]_
 
 ## Recursos criados na Azure
 
+Assinatura: **Azure for Students** · Região: **East US 2**
+
 | Recurso | Nome |
 |---|---|
-| Grupo de recursos | `rg-[RM]-dimdim` |
-| Container Registry | `acr[RM]dimdim` |
-| Conta de Armazenamento | `st[RM]dimdim` |
+| Grupo de recursos | `rg-564099-dimdim` |
+| Container Registry | `acr564099dimdim` (`acr564099dimdim.azurecr.io`) |
+| Conta de Armazenamento | `st564099dimdim` |
 | File Share | `dimdim-mysql` |
-| ACI — Banco de dados | `aci-[RM]-dimdim-db` |
-| ACI — Aplicação | `aci-[RM]-dimdim-app` |
+| ACI — Banco de dados | `aci-564099-dimdim-db` |
+| ACI — Aplicação | `aci-564099-dimdim-app` |
 
 ## Imagens registradas no ACR
 
 | Imagem | Conteúdo |
 |---|---|
-| `[RM]-dimdim-db:1.0` | MySQL 8.0 com o DDL do projeto |
-| `[RM]-dimdim-app:1.0` | API Spring Boot (usuário não-root) |
+| `564099-dimdim-db:1.0` | MySQL 8.0 com o DDL do projeto |
+| `564099-dimdim-app:1.0` | API Spring Boot (usuário não-root) |
+
+## Endereços públicos
+
+| Serviço | Endereço |
+|---|---|
+| API | `http://564099-dimdim-app.eastus2.azurecontainer.io:8080/clientes` |
+| Banco | `564099-dimdim-db.eastus2.azurecontainer.io:3306` |
 
 ---
 

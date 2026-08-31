@@ -13,6 +13,9 @@ RAIZ="$(dirname "$0")/.."
 
 ACR_SERVER=$(az acr show --name "${ACR_NAME}" --query loginServer --output tsv)
 
+echo ">>> Autenticando o Docker no ACR"
+az acr login --name "${ACR_NAME}"
+
 echo ">>> Build da imagem do BANCO"
 docker build -t "${IMG_DB}" "${RAIZ}/db"
 
