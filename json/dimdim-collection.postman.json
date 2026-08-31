@@ -1,0 +1,87 @@
+{
+  "info": {
+    "name": "DimDim - CRUD Cliente",
+    "description": "Colecao de testes do CRUD da tabela cliente. Ajuste a variavel base_url com o FQDN do ACI da aplicacao.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://SEU-ACI-APP.brazilsouth.azurecontainer.io:8080"
+    }
+  ],
+  "item": [
+    {
+      "name": "GET - listar clientes",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/clientes",
+          "host": ["{{base_url}}"],
+          "path": ["clientes"]
+        }
+      }
+    },
+    {
+      "name": "GET - buscar cliente por id",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/clientes/1",
+          "host": ["{{base_url}}"],
+          "path": ["clientes", "1"]
+        }
+      }
+    },
+    {
+      "name": "POST - inserir cliente",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nome\": \"Joao Carlos Menk\",\n  \"cpf\": \"99988877766\",\n  \"email\": \"joao.menk@dimdim.com.br\",\n  \"saldo\": 8750.50\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/clientes",
+          "host": ["{{base_url}}"],
+          "path": ["clientes"]
+        }
+      }
+    },
+    {
+      "name": "PUT - atualizar cliente",
+      "request": {
+        "method": "PUT",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nome\": \"Joao Carlos Menk\",\n  \"cpf\": \"99988877766\",\n  \"email\": \"joao.menk@fiap.com.br\",\n  \"saldo\": 12300.00\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/clientes/3",
+          "host": ["{{base_url}}"],
+          "path": ["clientes", "3"]
+        }
+      }
+    },
+    {
+      "name": "DELETE - remover cliente",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/clientes/3",
+          "host": ["{{base_url}}"],
+          "path": ["clientes", "3"]
+        }
+      }
+    }
+  ]
+}

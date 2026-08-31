@@ -1,0 +1,2 @@
+### DELETE - remover um cliente por id
+DELETE http://{{ACI_APP_FQDN}}:8080/clientes/3

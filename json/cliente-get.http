@@ -1,0 +1,5 @@
+### GET - listar todos os clientes
+GET http://{{ACI_APP_FQDN}}:8080/clientes
+
+### GET - buscar um cliente por id
+GET http://{{ACI_APP_FQDN}}:8080/clientes/1
