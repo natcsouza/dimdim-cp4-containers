@@ -26,60 +26,16 @@ persistidos em uma **Conta de Armazenamento**.
 
 ## Arquitetura
 
-```mermaid
-flowchart TB
-    subgraph registry["Azure Container Registry — acr564099dimdim"]
-        IMGAPP["564099-dimdim-app:1.0"]
-        IMGDB["564099-dimdim-db:1.0"]
-    end
+![Arquitetura do projeto DimDim](docs/arquitetura.png)
 
-    subgraph aci["Azure Container Instances"]
-        APP["aci-564099-dimdim-app<br/>Spring Boot 3 · Java 17<br/>porta 8080<br/>usuario dimdim, sem root"]
-        DB["aci-564099-dimdim-db<br/>MySQL 8.0<br/>porta 3306"]
-    end
+Do ambiente local até a nuvem: as imagens são construídas e testadas na máquina,
+enviadas ao **Azure Container Registry**, e de lá puxadas pelas duas **Azure
+Container Instances**. Os dados do MySQL ficam num **file share** da Conta de
+Armazenamento — se o container do banco for reiniciado, os dados continuam lá.
 
-    STORAGE["Conta de Armazenamento<br/>st564099dimdim<br/>file share dimdim-mysql<br/>montado em /var/lib/mysql"]
-
-    CLIENTE["Cliente HTTP<br/>curl ou navegador"]
-
-    IMGAPP -.->|deploy| APP
-    IMGDB -.->|deploy| DB
-    CLIENTE -->|"HTTP :8080"| APP
-    APP -->|"JDBC :3306"| DB
-    DB -->|grava os dados| STORAGE
-
-    classDef img fill:#eef4f9,stroke:#1f4d70,color:#0f1b26
-    classDef run fill:#ffffff,stroke:#1f4d70,stroke-width:2px,color:#0f1b26
-    classDef sto fill:#eef7f5,stroke:#0d7d70,stroke-width:2px,color:#0f1b26
-    class IMGAPP,IMGDB img
-    class APP,DB run
-    class STORAGE sto
-```
-
-Os dados do MySQL **não ficam dentro do container**: eles moram no file share da
-Conta de Armazenamento. Se o container do banco for reiniciado ou recriado, os
-dados continuam lá.
-
----
-
-## Do código até a nuvem
-
-```mermaid
-flowchart LR
-    DF["Dockerfile"] --> BUILD["docker build<br/>na máquina local"]
-    BUILD --> TESTE["docker compose up<br/>teste local"]
-    TESTE --> PUSH["docker push<br/>para o ACR"]
-    PUSH --> ACR["Azure Container Registry"]
-    ACR --> CREATE["az container create"]
-    CREATE --> RUN["Container no ar<br/>com endereço público"]
-
-    classDef local fill:#f2f5f8,stroke:#8494a3,color:#0f1b26
-    classDef nuvem fill:#eef4f9,stroke:#1f4d70,stroke-width:2px,color:#0f1b26
-    class DF,BUILD,TESTE local
-    class PUSH,ACR,CREATE,RUN nuvem
-```
-
-Todos os recursos são criados por **Azure CLI** — os scripts estão em [`scripts/`](scripts/).
+O container da aplicação roda com o usuário `dimdim` (uid 100), **sem privilégio
+de administrador**. Todos os recursos foram criados por **Azure CLI**; os scripts
+estão em [`scripts/`](scripts/).
 
 ---
 
@@ -185,7 +141,7 @@ export DB_ROOT_PASSWORD='SuaSenhaForteDoRoot'
 export DB_PASSWORD='SuaSenhaForteDoApp'
 ```
 
-E edite `scripts/00-variaveis.sh` trocando `RM_DO_REPRESENTANTE` pelo RM real.
+O RM do representante já está configurado em `scripts/00-variaveis.sh` (564099).
 
 ## Passo 1 — teste local
 
