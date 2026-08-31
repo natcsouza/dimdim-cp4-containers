@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Folha de rosto — Checkpoint Containers em Nuvem</title>
+<style>
+  :root{
+    --tinta:#0f1b26;
+    --aco:#1f4d70;
+    --teal:#0d7d70;
+    --painel:#f2f5f8;
+    --borda:#d3dbe3;
+    --secund:#5b6b7a;
+  }
+  @page{ size:A4; margin:20mm 18mm; }
+  *{box-sizing:border-box;}
+  body{
+    font-family:"DejaVu Sans",sans-serif;
+    font-size:10pt;
+    line-height:1.6;
+    color:var(--tinta);
+    margin:0;
+  }
+  h1,h2{font-family:"DejaVu Serif",serif;}
+  .topo{
+    border-top:3pt solid var(--aco);
+    padding-top:8mm;
+  }
+  .eyebrow{
+    font-size:8pt;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--secund);
+    margin:0 0 4mm 0;
+  }
+  h1{
+    font-size:22pt;
+    line-height:1.2;
+    margin:0 0 3mm 0;
+  }
+  .sub{
+    font-size:11pt;
+    color:var(--secund);
+    margin:0 0 10mm 0;
+  }
+  h2{
+    font-size:12pt;
+    color:var(--aco);
+    border-bottom:.8pt solid var(--aco);
+    padding-bottom:1.5mm;
+    margin:9mm 0 4mm 0;
+  }
+  table{width:100%;border-collapse:collapse;font-size:9.5pt;}
+  td,th{padding:2.4mm 2mm;border-bottom:.4pt solid var(--borda);text-align:left;vertical-align:top;}
+  th{
+    background:var(--painel);
+    font-size:8pt;
+    text-transform:uppercase;
+    letter-spacing:.08em;
+    color:var(--secund);
+  }
+  td.rot{
+    width:36mm;
+    color:var(--secund);
+    font-size:8pt;
+    text-transform:uppercase;
+    letter-spacing:.1em;
+    padding-top:3.2mm;
+  }
+  .mono{font-family:"DejaVu Sans Mono",monospace;font-size:9pt;}
+  .link{
+    font-family:"DejaVu Sans Mono",monospace;
+    font-size:9.5pt;
+    color:var(--aco);
+    word-break:break-all;
+  }
+  .pendente{
+    font-family:"DejaVu Sans Mono",monospace;
+    font-size:9pt;
+    color:#b03030;
+  }
+  .resumo{
+    background:var(--painel);
+    border-left:2.5pt solid var(--teal);
+    padding:4mm 5mm;
+    font-size:9.5pt;
+    margin:5mm 0;
+  }
+  ul{margin:2mm 0 0 0;padding-left:5mm;}
+  li{margin-bottom:1.4mm;}
+</style>
+</head>
+<body>
+
+<div class="topo">
+  <p class="eyebrow">FIAP · Tecnologia em Desenvolvimento de Sistemas</p>
+  <h1>Projeto DimDim<br>Imagem e Containers em Nuvem</h1>
+  <p class="sub">1º Checkpoint · 2º Semestre de 2026<br>
+  DevOps Tools &amp; Cloud Computing · Prof. João Carlos Menk</p>
+</div>
+
+<h2>Identificação</h2>
+<table>
+  <tr><td class="rot">Grupo</td><td><b>PataCloud</b></td></tr>
+  <tr><td class="rot">Turma</td><td>2TDSR</td></tr>
+  <tr><td class="rot">Representante</td><td>Natalia Cristina de Souza — RM 564099</td></tr>
+</table>
+
+<h2>Integrantes</h2>
+<table>
+  <tr><th>RM</th><th>Nome completo</th></tr>
+  <tr><td class="mono">564099</td><td>Natalia Cristina de Souza</td></tr>
+  <tr><td class="mono">564105</td><td>Nickolas Davi Silva Souza</td></tr>
+  <tr><td class="mono">566133</td><td>Samara Vilela</td></tr>
+</table>
+
+<h2>Links da entrega</h2>
+<table>
+  <tr><td class="rot">Repositório</td><td class="pendente">preencher antes de entregar</td></tr>
+  <tr><td class="rot">Vídeo</td><td class="pendente">preencher antes de entregar</td></tr>
+  <tr><td class="rot">Aplicação</td><td class="link">http://564099-dimdim-app.eastus2.azurecontainer.io:8080/clientes</td></tr>
+</table>
+
+<h2>Solução entregue</h2>
+
+<div class="resumo">
+API REST em <b>Java 17 com Spring Boot 3</b> para cadastro de clientes, e banco
+<b>MySQL 8.0</b>, ambos conteinerizados. As imagens foram publicadas no
+<b>Azure Container Registry</b> e executam como <b>Azure Container Instances</b>,
+com os dados do banco persistidos num <b>Azure File Share</b> da Conta de
+Armazenamento. Todos os recursos foram criados por <b>Azure CLI</b>.
+</div>
+
+<h2>Recursos na Azure</h2>
+<table>
+  <tr><th>Recurso</th><th>Nome</th></tr>
+  <tr><td>Assinatura</td><td class="mono">Azure for Students · região East US 2</td></tr>
+  <tr><td>Grupo de recursos</td><td class="mono">rg-564099-dimdim</td></tr>
+  <tr><td>Container Registry</td><td class="mono">acr564099dimdim.azurecr.io</td></tr>
+  <tr><td>Conta de Armazenamento</td><td class="mono">st564099dimdim</td></tr>
+  <tr><td>File Share</td><td class="mono">dimdim-mysql</td></tr>
+  <tr><td>Container — banco</td><td class="mono">aci-564099-dimdim-db</td></tr>
+  <tr><td>Container — aplicação</td><td class="mono">aci-564099-dimdim-app</td></tr>
+</table>
+
+<h2>Imagens registradas no ACR</h2>
+<table>
+  <tr><th>Imagem</th><th>Conteúdo</th></tr>
+  <tr><td class="mono">564099-dimdim-db:1.0</td><td>MySQL 8.0 com o DDL do projeto</td></tr>
+  <tr><td class="mono">564099-dimdim-app:1.0</td><td>API Spring Boot, usuário não-root</td></tr>
+</table>
+
+<h2>Conteúdo do repositório</h2>
+<ul>
+  <li><span class="mono">app/Dockerfile</span> — build multi-stage, execução como usuário <span class="mono">dimdim</span></li>
+  <li><span class="mono">db/Dockerfile</span> e <span class="mono">db/init/01-ddl.sql</span> — imagem do banco e DDL das tabelas</li>
+  <li><span class="mono">scripts/01</span> a <span class="mono">06</span> — criação de todos os recursos por Azure CLI</li>
+  <li><span class="mono">json/</span> — arquivos de teste de GET, POST, PUT e DELETE</li>
+  <li><span class="mono">README.md</span> — tutorial de execução com os comandos de build e push</li>
+  <li><span class="mono">docker-compose.yml</span> — ambiente local usado no teste antes do deploy</li>
+</ul>
+
+</body>
+</html>
