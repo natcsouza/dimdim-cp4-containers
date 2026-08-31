@@ -7,34 +7,99 @@ persistidos em uma **Conta de Armazenamento**.
 
 ---
 
-## Grupo
+## Grupo PataCloud — Turma 2TDSR
 
-| RM | Nome |
+| RM | Nome completo |
 |---|---|
-| _preencher_ | _preencher_ |
-| _preencher_ | _preencher_ |
+| 564099 | Natalia Cristina de Souza |
+| 564105 | Nickolas Davi Silva Souza |
+| 565162 | Rodrigo Carvalho Silva |
+| 565960 | Otávio Ferreira Barreto Santos |
+| 566133 | Samara Vilela de Oliveira |
 
-**Representante:** _preencher_ (o RM do representante é o prefixo das imagens e dos ACIs)
+**Representante:** Natalia Cristina de Souza — RM 564099
+(o RM do representante é o prefixo das imagens e dos ACIs)
 
-**Vídeo:** _link_
+**Aplicação no ar:** http://564099-dimdim-app.eastus2.azurecontainer.io:8080/clientes
 
 ---
 
 ## Arquitetura
 
+```mermaid
+flowchart TB
+    subgraph registry["Azure Container Registry — acr564099dimdim"]
+        IMGAPP["564099-dimdim-app:1.0"]
+        IMGDB["564099-dimdim-db:1.0"]
+    end
+
+    subgraph aci["Azure Container Instances"]
+        APP["aci-564099-dimdim-app<br/>Spring Boot 3 · Java 17<br/>porta 8080<br/>usuario dimdim, sem root"]
+        DB["aci-564099-dimdim-db<br/>MySQL 8.0<br/>porta 3306"]
+    end
+
+    STORAGE["Conta de Armazenamento<br/>st564099dimdim<br/>file share dimdim-mysql<br/>montado em /var/lib/mysql"]
+
+    CLIENTE["Cliente HTTP<br/>curl ou navegador"]
+
+    IMGAPP -.->|deploy| APP
+    IMGDB -.->|deploy| DB
+    CLIENTE -->|"HTTP :8080"| APP
+    APP -->|"JDBC :3306"| DB
+    DB -->|grava os dados| STORAGE
+
+    classDef img fill:#eef4f9,stroke:#1f4d70,color:#0f1b26
+    classDef run fill:#ffffff,stroke:#1f4d70,stroke-width:2px,color:#0f1b26
+    classDef sto fill:#eef7f5,stroke:#0d7d70,stroke-width:2px,color:#0f1b26
+    class IMGAPP,IMGDB img
+    class APP,DB run
+    class STORAGE sto
 ```
-                       Azure Container Registry (ACR)
-                    <RM>-dimdim-db:1.0   <RM>-dimdim-app:1.0
-                                  |
-                     +------------+------------+
-                     |                         |
-              ACI do banco               ACI da aplicacao
-          aci-<RM>-dimdim-db          aci-<RM>-dimdim-app
-             MySQL 8.0 :3306            Spring Boot :8080
-                     |
-          Conta de Armazenamento
-        (Azure File Share montado
-           em /var/lib/mysql)
+
+Os dados do MySQL **não ficam dentro do container**: eles moram no file share da
+Conta de Armazenamento. Se o container do banco for reiniciado ou recriado, os
+dados continuam lá.
+
+---
+
+## Do código até a nuvem
+
+```mermaid
+flowchart LR
+    DF["Dockerfile"] --> BUILD["docker build<br/>na máquina local"]
+    BUILD --> TESTE["docker compose up<br/>teste local"]
+    TESTE --> PUSH["docker push<br/>para o ACR"]
+    PUSH --> ACR["Azure Container Registry"]
+    ACR --> CREATE["az container create"]
+    CREATE --> RUN["Container no ar<br/>com endereço público"]
+
+    classDef local fill:#f2f5f8,stroke:#8494a3,color:#0f1b26
+    classDef nuvem fill:#eef4f9,stroke:#1f4d70,stroke-width:2px,color:#0f1b26
+    class DF,BUILD,TESTE local
+    class PUSH,ACR,CREATE,RUN nuvem
+```
+
+Todos os recursos são criados por **Azure CLI** — os scripts estão em [`scripts/`](scripts/).
+
+---
+
+## O caminho de uma operação do CRUD
+
+```mermaid
+sequenceDiagram
+    participant U as Usuário
+    participant A as API (ACI)
+    participant D as MySQL (ACI)
+    participant S as File Share
+
+    U->>A: POST /clientes (JSON)
+    A->>A: valida os campos
+    A->>D: INSERT INTO cliente
+    D->>S: grava no disco persistente
+    D-->>A: id gerado
+    A-->>U: 201 Created + JSON
+
+    Note over U,D: A evidência é o SELECT feito<br/>direto no banco depois da operação
 ```
 
 O container da aplicação recebe o endereço do banco por variável de ambiente e
