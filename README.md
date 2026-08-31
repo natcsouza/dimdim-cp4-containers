@@ -78,7 +78,7 @@ O container da aplicação recebe o endereço do banco por variável de ambiente
 ├── db/
 │   ├── Dockerfile            MySQL 8.0
 │   └── init/01-ddl.sql       DDL das tabelas + carga inicial
-├── json/                     corpos usados nos testes do CRUD
+├── json/                     arquivos JSON de teste dos 4 verbos
 ├── scripts/                  todos os recursos criados via Azure CLI
 │   ├── 00-variaveis.sh
 │   ├── 01-criar-acr.sh
@@ -116,11 +116,11 @@ Base: `http://<fqdn-do-aci-do-app>:8080`
 
 | Método | Rota | Descrição | Corpo |
 |---|---|---|---|
-| GET | `/clientes` | lista todos | — |
+| GET | `/clientes` | lista todos | `json/cliente-get.json` |
 | GET | `/clientes/{id}` | busca por id | — |
 | POST | `/clientes` | insere | `json/cliente-post.json` |
 | PUT | `/clientes/{id}` | atualiza | `json/cliente-put.json` |
-| DELETE | `/clientes/{id}` | remove | — |
+| DELETE | `/clientes/{id}` | remove | `json/cliente-delete.json` |
 
 ---
 

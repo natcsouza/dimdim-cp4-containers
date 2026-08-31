@@ -7,7 +7,7 @@
   "variable": [
     {
       "key": "base_url",
-      "value": "http://SEU-ACI-APP.brazilsouth.azurecontainer.io:8080"
+      "value": "http://564099-dimdim-app.eastus2.azurecontainer.io:8080"
     }
   ],
   "item": [

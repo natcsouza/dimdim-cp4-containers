@@ -1,0 +1,18 @@
+{
+  "descricao": "GET - consulta de clientes (o GET nao envia corpo na requisicao)",
+  "metodo": "GET",
+  "url_listar_todos": "http://564099-dimdim-app.eastus2.azurecontainer.io:8080/clientes",
+  "url_buscar_por_id": "http://564099-dimdim-app.eastus2.azurecontainer.io:8080/clientes/3",
+  "resposta_esperada": {
+    "status": 200,
+    "corpo": [
+      {
+        "id": 1,
+        "nome": "Steves Jobs",
+        "cpf": "11122233344",
+        "email": "steves@dimdim.com.br",
+        "saldo": 15000.00
+      }
+    ]
+  }
+}

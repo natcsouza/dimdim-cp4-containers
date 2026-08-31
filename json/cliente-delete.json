@@ -1,0 +1,9 @@
+{
+  "descricao": "DELETE - remocao de cliente por id (o DELETE nao envia corpo na requisicao)",
+  "metodo": "DELETE",
+  "url": "http://564099-dimdim-app.eastus2.azurecontainer.io:8080/clientes/3",
+  "resposta_esperada": {
+    "status": 204,
+    "corpo": null
+  }
+}
